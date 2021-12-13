@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client {
 
@@ -38,13 +37,17 @@ public class Client {
 		BufferedReader br= new BufferedReader(isr);
 		
 		// Scanner (키보드 입력용)
-		Scanner sc= new Scanner(System.in);
+		// Scanner sc= new Scanner(System.in);
+		InputStream in= System.in;
+		InputStreamReader sisr= new InputStreamReader(in);
+		BufferedReader sbr= new BufferedReader(sisr);
 		
 		
 		// 반복구간
 		
 		while(true) {
-			String str= sc.nextLine();
+			// String str= sc.nextLine(); 스캐너 대신 입력
+			String str= sbr.readLine();
 			if("/q".equals(str)) {
 				System.out.println("[종료키 입력]");
 				break;
@@ -62,11 +65,19 @@ public class Client {
 		// 반복구간 끝
 		
 		System.out.println("====================================");
-		System.out.println("<클라이언트 종료>");
+		// System.out.println("<클라이언트 종료>"); println 대신 출력
+		OutputStream out= System.out;
+		OutputStreamWriter posr= new OutputStreamWriter(out);
+		BufferedWriter pbw= new BufferedWriter(posr);
+		
+		pbw.write("<클라이언트 종료>"); // 스트림 사용구현
+		pbw.newLine();
+		pbw.flush();
+		
 		br.close();
 		bw.close();
 		socket.close();
-		sc.close();
+		// sc.close();
 	}
 
 }
